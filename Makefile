@@ -10,16 +10,18 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME_SERVER  = server
 NAME_CLIENT  = client
+NAME_SERVER  = server
+
+
 CC           = cc
-CFLAGS       = -Wall -Wextra -Werror -I./ -I./libft/include
+CFLAGS       = -Wall -Wextra -Werror -I./include -I./libft/libft/include
 LIBFT_DIR    = ./libft
 LIBFT_A      = $(LIBFT_DIR)/libft.a
 
 
-SRCS_SERVER  = server.c
-SRCS_CLIENT  = client.c
+SRCS_SERVER  = srcs/server.c
+SRCS_CLIENT  = srcs/client.c
 
 
 OBJS_SERVER  = $(SRCS_SERVER:.c=.o)
@@ -34,11 +36,11 @@ $(LIBFT_A):
 
 
 $(NAME_SERVER): $(OBJS_SERVER)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBFT_A)
+	$(CC) $(CFLAGS) -o $@ $^
 
 
 $(NAME_CLIENT): $(OBJS_CLIENT)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBFT_A)
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBFT_A)
 
 
 clean:

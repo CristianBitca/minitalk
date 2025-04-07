@@ -45,7 +45,7 @@ int	main(void)
 	sigaddset(&action.sa_mask, SIGUSR2);
 	sigaction(SIGUSR1, &action, NULL);
 	sigaction(SIGUSR2, &action, NULL);
-	printf("The process ID is %d\n\n", getpid());
+	ft_printf("The process ID is %d\n\n", getpid());
 	while (1)
 		pause();
 }

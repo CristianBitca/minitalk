@@ -24,7 +24,7 @@ int	send_message(int pid, char *s)
 {
 	const size_t	len = ft_strlen(s);
 	int				i;
-	int				j;
+	size_t			j;
 	int				bit;
 
 	j = -1;
@@ -54,14 +54,14 @@ int	main(int argc, char **argv)
 		signal(SIGUSR2, signal_handler);
 		res = send_message(ft_atoi(argv[1]), argv[2]);
 		if (res)
-			printf("Error");
+			ft_printf("Error");
 		else
-			printf("Done");
+			ft_printf("Done");
 	}
 	if (argc == 2)
-		printf("You are missing the message.");
+		ft_printf("You are missing the message.");
 	if (argc == 1)
-		printf("You need to enter the following data, PID and message.");
+		ft_printf("You need to enter the following data, PID and message.");
 	if (argc > 3)
-		printf("Too many arguments.");
+		ft_printf("Too many arguments.");
 }
