@@ -13,29 +13,41 @@
 CC      = gcc
 CFLAGS  = -Wall -Wextra -Werror -Iinclude -Ilibft
 
+
 SRC_DIR = srcs
 OBJ_DIR = obj
 LIBFT_DIR = libft
-INCLUDE_DIR = include
 
-SRCS    = $(wildcard $(SRC_DIR)/*.c)
-OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+
+SERVER_SRC = $(SRC_DIR)/server.c
+CLIENT_SRC = $(SRC_DIR)/client.c
+
+
+SERVER_OBJ = $(OBJ_DIR)/server.o
+CLIENT_OBJ = $(OBJ_DIR)/client.o
+
 
 SERVER  = server
 CLIENT  = client
 
+
 all: $(SERVER) $(CLIENT)
 
 
-$(SERVER): $(OBJ_DIR)/server.o $(LIBFT_DIR)/libft.a
+$(SERVER): $(SERVER_OBJ) $(LIBFT_DIR)/libft.a
 	$(CC) $(CFLAGS) -o $@ $< -L$(LIBFT_DIR) -lft
 
 
-$(CLIENT): $(OBJ_DIR)/client.o $(LIBFT_DIR)/libft.a
+$(CLIENT): $(CLIENT_OBJ) $(LIBFT_DIR)/libft.a
 	$(CC) $(CFLAGS) -o $@ $< -L$(LIBFT_DIR) -lft
 
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(SERVER_OBJ): $(SERVER_SRC)
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+
+$(CLIENT_OBJ): $(CLIENT_SRC)
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
