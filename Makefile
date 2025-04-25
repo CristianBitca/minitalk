@@ -10,47 +10,48 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME_CLIENT  = client
-NAME_SERVER  = server
+CC      = gcc
+CFLAGS  = -Wall -Wextra -Werror -Iinclude -Ilibft
+
+SRC_DIR = srcs
+OBJ_DIR = obj
+LIBFT_DIR = libft
+INCLUDE_DIR = include
+
+SRCS    = $(wildcard $(SRC_DIR)/*.c)
+OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+
+SERVER  = server
+CLIENT  = client
+
+all: $(SERVER) $(CLIENT)
 
 
-CC           = cc
-CFLAGS       = -Wall -Wextra -Werror -I./include -I./libft/libft/include
-LIBFT_DIR    = ./libft
-LIBFT_A      = $(LIBFT_DIR)/libft.a
+$(SERVER): $(OBJ_DIR)/server.o $(LIBFT_DIR)/libft.a
+	$(CC) $(CFLAGS) -o $@ $< -L$(LIBFT_DIR) -lft
 
 
-SRCS_SERVER  = srcs/server.c
-SRCS_CLIENT  = srcs/client.c
+$(CLIENT): $(OBJ_DIR)/client.o $(LIBFT_DIR)/libft.a
+	$(CC) $(CFLAGS) -o $@ $< -L$(LIBFT_DIR) -lft
 
 
-OBJS_SERVER  = $(SRCS_SERVER:.c=.o)
-OBJS_CLIENT  = $(SRCS_CLIENT:.c=.o)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
-all: $(LIBFT_A) $(NAME_SERVER) $(NAME_CLIENT)
-
-
-$(LIBFT_A):
+$(LIBFT_DIR)/libft.a:
 	$(MAKE) -C $(LIBFT_DIR)
 
 
-$(NAME_SERVER): $(OBJS_SERVER)
-	$(CC) $(CFLAGS) -o $@ $^
-
-
-$(NAME_CLIENT): $(OBJS_CLIENT)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBFT_A)
-
-
 clean:
+	rm -rf $(OBJ_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -f $(OBJS_SERVER) $(OBJS_CLIENT)
 
 
 fclean: clean
+	rm -f $(SERVER) $(CLIENT)
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME_SERVER) $(NAME_CLIENT)
 
 
 re: fclean all
